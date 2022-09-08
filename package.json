@@ -1,0 +1,26 @@
+{
+  "name": "backend-js-open",
+  "version": "1.0.0",
+  "description": "Backend Node + Express + TS + Swagger",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rubengarzon/backend-js.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "typescript",
+    "swagger",
+    "mongoose"
+  ],
+  "author": "@rubengarzon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rubengarzon/backend-js/issues"
+  },
+  "homepage": "https://github.com/rubengarzon/backend-js#readme"
+}
