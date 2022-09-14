@@ -4,7 +4,7 @@
  */
 import express, { Request, Response } from "express";
 import helloRouter from "./HelloRouter";
-import { LogInfo } from "@/utils/logger";
+import { LogInfo } from "../utils/logger";
 
 // server instance
 let server = express();

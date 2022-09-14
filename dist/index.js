@@ -3,23 +3,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
+// Environment variables
 const dotenv_1 = __importDefault(require("dotenv"));
-// Configuration the .env file
+const server_1 = __importDefault(require("./src/server"));
+const logger_1 = require("./src/utils/logger");
+const logger_2 = require("./src/utils/logger");
+// * Configuration the .env file
 dotenv_1.default.config();
-// Create the express APP
-const app = (0, express_1.default)();
 const port = process.env.PORT || 8000;
-// Define the first route of APP
-app.get("/", (req, res) => {
-    //Send Hello World
-    res.send("Welcome to API Restful: Express + TS + Nodemon + Jest + Swagger + Mongoose");
+// * Execute the server
+server_1.default.listen(port, () => {
+    (0, logger_1.LogSuccess)(`[SERVER ON]: Running in http://localhost:${port}/api`);
 });
-app.get("/hello", (req, res) => {
-    res.send("Welcome to GET Route: Hello!");
-});
-// Execute APP and listen the port
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+// * Control SERVER ERROR
+server_1.default.on("error", (error) => {
+    (0, logger_2.LogError)(`[SERVER ERROR]: ${error}`);
 });
 //# sourceMappingURL=index.js.map
