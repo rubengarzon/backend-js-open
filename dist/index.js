@@ -1,1 +1,22 @@
-(()=>{"use strict";var e={492:function(e,t,o){var n=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0});const r=n(o(142)),u=n(o(557)),l=o(645),s=o(645);r.default.config();const i=process.env.PORT||8e3;u.default.listen(i,(()=>{(0,l.LogSuccess)(`[SERVER ON]: Running in http://localhost:${i}/api`)})),u.default.on("error",(e=>{(0,s.LogError)(`[SERVER ERROR]: ${e}`)}))},7:function(e,t,o){var n=this&&this.__awaiter||function(e,t,o,n){return new(o||(o=Promise))((function(r,u){function l(e){try{i(n.next(e))}catch(e){u(e)}}function s(e){try{i(n.throw(e))}catch(e){u(e)}}function i(e){var t;e.done?r(e.value):(t=e.value,t instanceof o?t:new o((function(e){e(t)}))).then(l,s)}i((n=n.apply(e,t||[])).next())}))};Object.defineProperty(t,"__esModule",{value:!0}),t.HelloController=void 0;const r=o(645);t.HelloController=class{getMessage(e){return n(this,void 0,void 0,(function*(){return(0,r.LogSuccess)("[/api/hello] Get Request"),{message:`Hello, ${e||"World"}!`}}))}}},881:function(e,t,o){var n=this&&this.__awaiter||function(e,t,o,n){return new(o||(o=Promise))((function(r,u){function l(e){try{i(n.next(e))}catch(e){u(e)}}function s(e){try{i(n.throw(e))}catch(e){u(e)}}function i(e){var t;e.done?r(e.value):(t=e.value,t instanceof o?t:new o((function(e){e(t)}))).then(l,s)}i((n=n.apply(e,t||[])).next())}))},r=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0});const u=r(o(860)),l=o(7),s=o(645);let i=u.default.Router();i.route("/").get(((e,t)=>n(void 0,void 0,void 0,(function*(){var o;let n=null===(o=null==e?void 0:e.query)||void 0===o?void 0:o.name;(0,s.LogInfo)("Query Params: "+n);const r=new l.HelloController,u=yield r.getMessage(n);return t.send(u)})))),t.default=i},479:function(e,t,o){var n=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0});const r=n(o(860)),u=n(o(881)),l=o(645);let s=(0,r.default)(),i=r.default.Router();i.get("/",((e,t)=>{(0,l.LogInfo)("GET: /api"),t.send("Welcome to my API Restful: Express + Typescript + MongoDB")})),s.use("/",i),s.use("/hello",u.default),t.default=s},557:function(e,t,o){var n=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(t,"__esModule",{value:!0});const r=n(o(860)),u=n(o(582)),l=n(o(806)),s=n(o(479)),i=(0,r.default)();i.use("/api",s.default),i.use((0,u.default)()),i.use((0,l.default)()),i.use(r.default.urlencoded({extended:!0,limit:"50mb"})),i.use(r.default.json({limit:"50mb"})),i.get("/",((e,t)=>{t.redirect("/api")})),t.default=i},645:(e,t)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.LogError=t.LogWarning=t.LogSuccess=t.LogInfo=void 0,t.LogInfo=e=>{console.log("Info: "+e)},t.LogSuccess=e=>{console.log("Success: "+e)},t.LogWarning=e=>{console.log("Warning: "+e)},t.LogError=e=>{console.log("Error: "+e)}},582:e=>{e.exports=require("cors")},142:e=>{e.exports=require("dotenv")},860:e=>{e.exports=require("express")},806:e=>{e.exports=require("helmet")}},t={};!function o(n){var r=t[n];if(void 0!==r)return r.exports;var u=t[n]={exports:{}};return e[n].call(u.exports,u,u.exports,o),u.exports}(492)})();
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+// Environment variables
+const dotenv_1 = __importDefault(require("dotenv"));
+const server_1 = __importDefault(require("./src/server"));
+const logger_1 = require("./src/utils/logger");
+const logger_2 = require("./src/utils/logger");
+// * Configuration the .env file
+dotenv_1.default.config();
+const port = process.env.PORT || 8000;
+// * Execute the server
+server_1.default.listen(port, () => {
+    (0, logger_1.LogSuccess)(`[SERVER ON]: Running in http://localhost:${port}/api`);
+});
+// * Control SERVER ERROR
+server_1.default.on("error", (error) => {
+    (0, logger_2.LogError)(`[SERVER ERROR]: ${error}`);
+});
+//# sourceMappingURL=index.js.map
