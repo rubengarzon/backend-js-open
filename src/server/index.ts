@@ -1,4 +1,8 @@
 import express, { Express, Request, Response } from "express";
+import mongoose from "mongoose";
+
+// Swagger
+import swaggerUi from "swagger-ui-express";
 
 // Security
 import cors from "cors";
@@ -12,6 +16,15 @@ import router from "../routes";
 // * Create the express APP
 const server: Express = express();
 
+// * Swagger Config and route
+server.use(
+  "/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(undefined, {
+    swaggerOptions: { url: "/swagger.json", explorer: true },
+  })
+);
+
 // * Define SERVER to use "/api" and use rootRouter from 'index.ts' in routes
 // from this point onover: "localhost:8000/api/.."
 server.use("/api", router);
@@ -19,7 +32,8 @@ server.use("/api", router);
 // static server
 server.use(express.static("public"));
 
-// TODO: Mongoose Connection
+// Mongoose Connection
+mongoose.connect("mongodb://localhost:27017/exampled");
 
 // * Security Config
 server.use(cors());
