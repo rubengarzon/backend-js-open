@@ -6,6 +6,7 @@ import express, { Request, Response } from "express";
 import helloRouter from "./HelloRouter";
 import { LogInfo } from "../utils/logger";
 import usersRouter from "./UserRouter";
+import authRouter from "./AuthRouter";
 
 // server instance
 let server = express();
@@ -25,5 +26,6 @@ server.use("/", rootRouter); // http://localhost:8000/api
 server.use("/hello", helloRouter); // http://localhost:8000/api/hello --> HelloRouter
 // add more routers here
 server.use("/users", usersRouter); // http://localhost:8000/api/users --> UserRouter
-
+// Auth Router
+server.use("/auth", authRouter); // http://localhost:8000/api/auth --> UserRouter
 export default server;

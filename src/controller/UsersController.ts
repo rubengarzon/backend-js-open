@@ -47,12 +47,14 @@ export class UserController implements IUserController {
       await deleteUserById(id).then((res) => {
         response = {
           message: "User deleted successfully",
+          status: 204,
         };
       });
     } else {
       LogWarning("[/api/users] Delete user by id without ID");
       response = {
         message: "No ID provided",
+        status: 400,
       };
     }
     return response;
@@ -63,7 +65,7 @@ export class UserController implements IUserController {
    * @returns  Response message
    */
   @Post("/")
-  public async createUser(user: any): Promise<any> {
+  public async createUser(@Query() user: any): Promise<any> {
     let response: any = "";
 
     await createUser(user).then((res) => {
@@ -82,7 +84,10 @@ export class UserController implements IUserController {
    * @returns  Response message
    */
   @Put("/")
-  public async updateUser(@Query() id: string, user: any): Promise<any> {
+  public async updateUser(
+    @Query() id: string,
+    @Query() user: any
+  ): Promise<any> {
     let response: any = "";
 
     if (id) {
@@ -90,11 +95,13 @@ export class UserController implements IUserController {
       await updateUserById(id, user).then((res) => {
         response = {
           message: "User updated successfully",
+          status: 204,
         };
       });
     } else {
       LogWarning("[/api/users] Updated user by id without ID");
       response = {
+        status: 400,
         message: "No ID provided to update user",
       };
     }

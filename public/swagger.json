@@ -72,7 +72,7 @@
 				"operationId": "GetUsers",
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "User Object",
 						"content": {
 							"application/json": {
 								"schema": {}
@@ -80,16 +80,113 @@
 						}
 					}
 				},
-				"description": "Endpoint to retrieve the users in the collection \"Users\" of DB",
+				"description": "Endpoint to get all users in the collection \"Users\" of DB",
 				"tags": [
 					"UserController"
 				],
 				"security": [],
 				"parameters": [
 					{
+						"description": "User ID",
 						"in": "query",
 						"name": "id",
 						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"delete": {
+				"operationId": "DeleteUser",
+				"responses": {
+					"200": {
+						"description": "Response message",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Endpoint to delete a user by id in the collection \"Users\" of DB",
+				"tags": [
+					"UserController"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "ID of the user to delete",
+						"in": "query",
+						"name": "id",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"post": {
+				"operationId": "CreateUser",
+				"responses": {
+					"200": {
+						"description": "Response message",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Endpoint to update a user by id in the collection \"Users\" of DB",
+				"tags": [
+					"UserController"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "User object to update",
+						"in": "query",
+						"name": "user",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateUser",
+				"responses": {
+					"200": {
+						"description": "Response message",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"description": "Endpoint to update a user by id in the collection \"Users\" of DB",
+				"tags": [
+					"UserController"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "ID of the user to update",
+						"in": "query",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"description": "User object to update",
+						"in": "query",
+						"name": "user",
+						"required": true,
 						"schema": {
 							"type": "string"
 						}
