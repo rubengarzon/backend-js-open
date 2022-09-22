@@ -26,9 +26,12 @@ export class UserController implements IUserController {
     if (id) {
       LogSuccess(`[/api/users] Get User by ID: ${id}`);
       response = await getUserById(id);
+      // Remove the password
+      response.password = "";
     } else {
       LogSuccess("[/api/users] Get All Users Request");
       response = await getAllUsers();
+      //TODO: Remove the password
     }
     return response;
   }
@@ -59,24 +62,7 @@ export class UserController implements IUserController {
     }
     return response;
   }
-  /**
-   * Endpoint to update a user by id in the collection "Users" of DB
-   * @param user  User object to update
-   * @returns  Response message
-   */
-  @Post("/")
-  public async createUser(@Query() user: any): Promise<any> {
-    let response: any = "";
-
-    await createUser(user).then((res) => {
-      LogSuccess(`[/api/users] Create user: ${user.name}`);
-      response = {
-        message: "User created successfully",
-      };
-    });
-
-    return response;
-  }
+  
   /**
    * Endpoint to update a user by id in the collection "Users" of DB
    * @param id  ID of the user to update

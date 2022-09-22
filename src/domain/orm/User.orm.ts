@@ -4,6 +4,8 @@ import { LogError, LogSuccess } from "../../utils/logger";
 import { IUser } from "../interfaces/IUser.interface";
 import { IAuth } from "../interfaces/IAuth.interface";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 // CRUD
 /**
@@ -84,27 +86,46 @@ export const loginUser = async (auth: IAuth): Promise<any | undefined> => {
   try {
     let userModel = userEntity();
 
-    // Find user by email
-    userModel.findOne({ email: auth.email }, (err: any, user: IUser) => {
-      if (err) {
-        LogError(`[ORM ERROR] Login User: ${err}`);
-      }
-      if (!user) {
-        LogError(`[ORM ERROR] Login User: User not found`);
-      }
-      // Use bcrypt to compare password
-      let validPassword = bcrypt.compareSync(auth.password, user.password);
-
-      if (!validPassword) {
-        LogError(`[ORM ERROR] Login User: Invalid password`);
-      }
-
-      // Create token
-      let token = jwt.sign({ email: user.email }, "MYSECRETWORD", {
-        expiresIn: "2h",
+    let userFound: IUser | undefined = undefined;
+    let token = undefined;
+    // Check if user exists by email
+    await userModel
+      .findOne({ email: auth.email })
+      .then((user) => {
+        if (user) {
+          userFound = user;
+        }
+      })
+      .catch((error) => {
+        LogError(`[ORM ERROR] Login User: ${error}`);
+        throw new Error(`[ORM ERROR] Login User: ${error}`);
       });
-      return token;
-    });
+    // Check if password is correct
+    let validPassword = bcrypt.compareSync(auth.password, userFound!.password);
+
+    if (!validPassword) {
+      LogError("password is not valid");
+      throw new Error("password is not valid");
+    }
+
+    // Obtain Secret Key from .env
+    let secretKey = process.env.SECRETKEY || "secretKey";
+
+    // Create token
+    token = jwt.sign(
+      {
+        email: userFound!.email,
+      },
+      secretKey,
+      {
+        expiresIn: "2h",
+      }
+    );
+
+    return {
+      user: userFound,
+      token,
+    };
   } catch (error) {
     LogError(`[ORM ERROR] Registring User by ID: ${error}`);
   }

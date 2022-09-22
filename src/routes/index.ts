@@ -27,5 +27,5 @@ server.use("/hello", helloRouter); // http://localhost:8000/api/hello --> HelloR
 // add more routers here
 server.use("/users", usersRouter); // http://localhost:8000/api/users --> UserRouter
 // Auth Router
-server.use("/auth", authRouter); // http://localhost:8000/api/auth --> UserRouter
+server.use("/auth", authRouter); // http://localhost:8000/api/auth --> AuthRouter
 export default server;

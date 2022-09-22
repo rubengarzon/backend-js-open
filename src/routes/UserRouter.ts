@@ -4,7 +4,10 @@ import { LogInfo } from "../utils/logger";
 import { IUser } from "../domain/interfaces/IUser.interface";
 
 import bcrypt from "bcrypt";
-import { AuthController } from "@/controller/AuthController";
+import { AuthController } from "../controller/AuthController";
+
+import bodyParser from "body-parser";
+let jsonParser = bodyParser.json();
 
 //Router from express
 let usersRouter = express.Router();
@@ -34,24 +37,6 @@ usersRouter
     const response: any = await controller.deleteUser(id);
     // Send response
     return res.status(response.status).send(response);
-  })
-  .post(async (req: Request, res: Response) => {
-    let name: any = req?.query?.name;
-    let email: any = req?.query?.email;
-    let age: any = req?.query?.age;
-    // Controller instance to execute method
-    const controller: UserController = new UserController();
-
-    let user = {
-      name: name || "Default Name",
-      email: email || "Default Email",
-      age: age || 18,
-    };
-
-    // Obtain Response
-    const response: any = await controller.createUser(user);
-    // Send response
-    return res.status(201).send(response);
   })
   .put(async (req: Request, res: Response) => {
     let id: any = req?.query?.id;

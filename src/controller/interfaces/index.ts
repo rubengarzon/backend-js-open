@@ -1,5 +1,5 @@
 import { BasicResponse } from "../types";
-import { IUser } from '../../domain/interfaces/IUser.interface';
+import { IUser } from "../../domain/interfaces/IUser.interface";
 
 export interface IHelloController {
   getMessage(name?: string): Promise<BasicResponse>;
@@ -10,8 +10,6 @@ export interface IUserController {
   getUsers(id?: string): Promise<any>;
   // Delete user by ID
   deleteUser(id?: string): Promise<any>;
-  // Create new user
-  createUser(user: any): Promise<any>;
   // Update user by ID
   updateUser(id: string, user: any): Promise<any>;
 }
