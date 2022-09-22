@@ -20,18 +20,19 @@ export class UserController implements IUserController {
    * @returns  User Object
    */
   @Get("/")
-  public async getUsers(@Query() id?: string): Promise<any> {
+  public async getUsers(
+    @Query() page: number,
+    @Query() limit: number,
+    @Query() id?: string
+  ): Promise<any> {
     let response: any = "";
 
     if (id) {
       LogSuccess(`[/api/users] Get User by ID: ${id}`);
       response = await getUserById(id);
-      // Remove the password
-      response.password = "";
     } else {
       LogSuccess("[/api/users] Get All Users Request");
-      response = await getAllUsers();
-      //TODO: Remove the password
+      response = await getAllUsers(page, limit);
     }
     return response;
   }
@@ -62,7 +63,7 @@ export class UserController implements IUserController {
     }
     return response;
   }
-  
+
   /**
    * Endpoint to update a user by id in the collection "Users" of DB
    * @param id  ID of the user to update
