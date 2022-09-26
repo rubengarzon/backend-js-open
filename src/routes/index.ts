@@ -7,6 +7,7 @@ import helloRouter from "./HelloRouter";
 import { LogInfo } from "../utils/logger";
 import usersRouter from "./UserRouter";
 import authRouter from "./AuthRouter";
+import katasRouter from "./KataRouter";
 
 // server instance
 let server = express();
@@ -28,4 +29,6 @@ server.use("/hello", helloRouter); // http://localhost:8000/api/hello --> HelloR
 server.use("/users", usersRouter); // http://localhost:8000/api/users --> UserRouter
 // Auth Router
 server.use("/auth", authRouter); // http://localhost:8000/api/auth --> AuthRouter
+// Katas Router
+server.use("/katas", katasRouter); // http://localhost:8000/api/katas --> KatasRouter
 export default server;

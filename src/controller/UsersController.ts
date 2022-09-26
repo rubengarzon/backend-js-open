@@ -9,6 +9,7 @@ import {
   deleteUserById,
   createUser,
   updateUserById,
+  getKatasFromUser,
 } from "../domain/orm/User.orm";
 
 @Route("/api/users")
@@ -90,6 +91,25 @@ export class UserController implements IUserController {
       response = {
         status: 400,
         message: "No ID provided to update user",
+      };
+    }
+    return response;
+  }
+  @Get("/katas")
+  public async getKatas(
+    @Query() page: number,
+    @Query() limit: number,
+    @Query() id: string
+  ): Promise<any> {
+    let response: any = "";
+
+    if (id) {
+      LogSuccess(`[/api/users/katas] Get Katas from User by ID: ${id}`);
+      response = await getKatasFromUser(page, limit, id);
+    } else {
+      LogSuccess("[/api/users/katas] Get All Katas without ID");
+      response = {
+        message: "No ID provided to get katas",
       };
     }
     return response;

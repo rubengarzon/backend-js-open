@@ -31,6 +31,7 @@ authRouter
         email: email,
         password: hashedPassword,
         age: age,
+        katas: [],
       };
 
       // Controller instance to execute method

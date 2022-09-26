@@ -16,7 +16,7 @@ let usersRouter = express.Router();
 // http://localhost:8000/api/users?id=63243d111eadd287737c42d8
 usersRouter
   .route("/")
-  .get(async (req: Request, res: Response) => {
+  .get(verifyToken, async (req: Request, res: Response) => {
     // Obtain a Query Param (ID)
     let id: any = req?.query?.id;
     let page: any = req?.query?.page || 1;
@@ -75,6 +75,7 @@ usersRouter
         email: email,
         password: hashedPassword,
         age: age,
+        katas: [],
       };
 
       // Controller instance to execute method
@@ -82,6 +83,25 @@ usersRouter
       // Obtain Response
       const response: any = await controller.registerUser(newUser);
     }
+  });
+
+usersRouter
+  .route("/katas")
+  .get(verifyToken, async (req: Request, res: Response) => {
+    // Obtain a Query Param (ID)
+    let id: any = req?.query?.id;
+    LogInfo("Query Params: " + id);
+
+    // Pagination
+    let page: any = req?.query?.page || 1;
+    let limit: any = req?.query?.limit || 10;
+
+    // Controller instance to execute method
+    const controller: UserController = new UserController();
+    // Obtain Response
+    const response: any = await controller.getKatas(page, limit, id);
+    // Send response
+    return res.status(200).send(response);
   });
 
 export default usersRouter;

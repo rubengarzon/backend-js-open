@@ -6,6 +6,9 @@ import { IAuth } from "../interfaces/IAuth.interface";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { UsersResponse } from "../types/UsersResponse.type";
+import { kataEntity } from "../entities/Kata.entity";
+import { IKata } from "../interfaces/IKata.interface";
+import mongoose from "mongoose";
 dotenv.config();
 
 // CRUD
@@ -25,7 +28,7 @@ export const getAllUsers = async (
     // Search all users (pagination)
     await userModel
       .find({ isDeleted: false })
-      .select("name email age")
+      .select("name email age katas")
       .limit(limit)
       .skip((page - 1) * limit)
       .exec()
@@ -44,13 +47,50 @@ export const getAllUsers = async (
     LogError(`[ORM ERROR] Getting All Users: ${error}`);
   }
 };
+export const getKatasFromUser = async (
+  page: number,
+  limit: number,
+  id: string
+): Promise<any[] | undefined> => {
+  let userModel = userEntity();
+  let katasModel = kataEntity();
+
+  let katasFound: IKata[] = [];
+
+  let response: any = {};
+
+  await userModel
+    .findById(id)
+    .then(async (user: IUser) => {
+      response.user = user.email;
+
+      // Create types to search
+      let objectIds: mongoose.Types.ObjectId[] = [];
+      user.katas.forEach((kataID: any) => {
+        let objectID = new mongoose.Types.ObjectId(kataID);
+        objectIds.push(objectID);
+      });
+
+      await katasModel.find({ "_id": { "$in": objectIds } }).then((katas: IKata[]) => {
+        katasFound = katas;
+      });
+    })
+    .catch((error) => {
+      LogError(`[ORM ERROR] Obtaining User: ${error}`);
+    });
+
+  response.katas = katasFound;
+
+
+  return response;
+};
 
 // - Get User by ID
 export const getUserById = async (id: string): Promise<any | undefined> => {
   try {
     let userModel = userEntity();
     // Search user by id
-    return await userModel.findById(id).select("name email age");
+    return await userModel.findById(id).select("name email age katas");
   } catch (error) {
     LogError(`[ORM ERROR] Getting User by ID: ${error}`);
   }
