@@ -33,4 +33,6 @@ export interface IKataController {
   deleteKata(id?: string): Promise<any>;
   // Update kata
   updateKata(id: string, kata: IKata): Promise<any>;
+  // Uploade file to kata
+  updateKataFile(): Promise<any>;
 }

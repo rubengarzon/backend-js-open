@@ -7,6 +7,7 @@ import {
   getAllUsers,
   getUserById,
   deleteUserById,
+  getUserByEmail,
   createUser,
   updateUserById,
   getKatasFromUser,
@@ -24,11 +25,14 @@ export class UserController implements IUserController {
   public async getUsers(
     @Query() page: number,
     @Query() limit: number,
-    @Query() id?: string
+    @Query() id?: string,
+    @Query() email?: string
   ): Promise<any> {
     let response: any = "";
-
-    if (id) {
+    if (email) {
+      LogSuccess(`[/api/users] Get User by email: ${email}`);
+      response = await getUserByEmail(email);
+    } else if (id) {
       LogSuccess(`[/api/users] Get User by ID: ${id}`);
       response = await getUserById(id);
     } else {
@@ -78,6 +82,8 @@ export class UserController implements IUserController {
   ): Promise<any> {
     let response: any = "";
 
+    console.log("**** El id del usuario: " + id);
+
     if (id) {
       LogSuccess(`[/api/users] Update user by ID: ${id}`);
       await updateUserById(id, user).then((res) => {
@@ -104,7 +110,7 @@ export class UserController implements IUserController {
     let response: any = "";
 
     if (id) {
-      LogSuccess(`[/api/users/katas] Get Katas from User by ID: ${id}`);
+      LogSuccess(`[/api/users/katas] Get Katas from User by id: ${id}`);
       response = await getKatasFromUser(page, limit, id);
     } else {
       LogSuccess("[/api/users/katas] Get All Katas without ID");

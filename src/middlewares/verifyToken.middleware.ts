@@ -21,6 +21,8 @@ export const verifyToken = (
   // Check HEADER from request for 'x-access-token'
   const token: any = req.header("x-access-token");
 
+  console.log(token)
+
   // Check if token exists
   if (!token)
     return res.status(403).send({ auth: false, message: "No token provided." });

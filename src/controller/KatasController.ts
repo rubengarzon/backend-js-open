@@ -108,6 +108,7 @@ export class KatasController implements IKataController {
         LogSuccess("Creating user");
         response = {
           message: "Kata created successfully",
+          id: res._id,
         };
       });
     } else {
@@ -117,5 +118,10 @@ export class KatasController implements IKataController {
       };
     }
     return response;
+  }
+  // api/katas/upload
+  @Post("/upload")
+  public async updateKataFile(): Promise<any> {
+
   }
 }

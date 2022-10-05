@@ -12,6 +12,8 @@ import { verifyToken } from "../middlewares/verifyToken.middleware";
 import { updateKataById } from "../domain/orm/Kata.orm";
 let jsonParser = bodyParser.json();
 
+import fileUpload from "express-fileupload";
+
 //Router from express
 let katasRouter = express.Router();
 
@@ -137,4 +139,36 @@ katasRouter
     }
   });
 
+katasRouter
+  .route("/uploadFile")
+  .post(jsonParser, async (req: any, res: any) => {
+    let files: any = req.files;
+    try {
+      if (!files) {
+        res.send({
+          status: false,
+          message: "No file uploaded",
+          payload: {},
+        });
+      } else {
+        let file = files.file;
+        file.mv("./uploads/" + file.name);
+        res.send({
+          status: true,
+          message: "File is uploaded",
+          payload: {
+            name: file.name,
+            mimetype: file.mimetype,
+            size: file.size,
+          },
+        });
+      }
+    } catch (err) {
+      res.status(500).send({
+        status: false,
+        message: "Error uploading file",
+        payload: {},
+      });
+    }
+  });
 export default katasRouter;

@@ -71,16 +71,17 @@ export const getKatasFromUser = async (
         objectIds.push(objectID);
       });
 
-      await katasModel.find({ "_id": { "$in": objectIds } }).then((katas: IKata[]) => {
-        katasFound = katas;
-      });
+      await katasModel
+        .find({ _id: { $in: objectIds } })
+        .then((katas: IKata[]) => {
+          katasFound = katas;
+        });
     })
     .catch((error) => {
       LogError(`[ORM ERROR] Obtaining User: ${error}`);
     });
 
   response.katas = katasFound;
-
 
   return response;
 };
@@ -91,6 +92,20 @@ export const getUserById = async (id: string): Promise<any | undefined> => {
     let userModel = userEntity();
     // Search user by id
     return await userModel.findById(id).select("name email age katas");
+  } catch (error) {
+    LogError(`[ORM ERROR] Getting User by ID: ${error}`);
+  }
+};
+// - Get User by Email
+export const getUserByEmail = async (
+  email: string
+): Promise<any | undefined> => {
+  try {
+    let userModel = userEntity();
+    // Search user by email
+    return await userModel
+      .findOne({ email: email })
+      .select("name email age katas");
   } catch (error) {
     LogError(`[ORM ERROR] Getting User by ID: ${error}`);
   }

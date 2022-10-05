@@ -9,7 +9,7 @@ import {
   registerUser,
   loginUser,
   logoutUser,
-  getUserById,
+  getUserByEmail,
 } from "../domain/orm/User.orm";
 import { AuthResponse, ErrorResponse } from "./types";
 
@@ -62,12 +62,12 @@ export class AuthController implements IAuthController {
     throw new Error("Method not implemented.");
   }
   @Get("/me")
-  public async userData(@Query() id: string): Promise<any> {
+  public async userData(@Query() email: string): Promise<any> {
     let response: any = "";
 
-    if (id) {
+    if (email) {
       LogSuccess("Getting user data");
-      response = await getUserById(id);
+      response = await getUserByEmail(email);
     }
 
     return response;
