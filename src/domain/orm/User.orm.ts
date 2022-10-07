@@ -140,7 +140,6 @@ export const updateUserById = async (
 ): Promise<any | undefined> => {
   try {
     let userModel = userEntity();
-    // Update user by id
     return await userModel.findByIdAndUpdate(id, user);
   } catch (error) {
     LogError(`[ORM ERROR] Updating User by ID: ${error}`);
