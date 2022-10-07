@@ -27,6 +27,7 @@ authRouter
       hashedPassword = bcrypt.hashSync(password, 8);
 
       let newUser: IUser = {
+        rol: "usuario",
         name: name,
         email: email,
         password: hashedPassword,

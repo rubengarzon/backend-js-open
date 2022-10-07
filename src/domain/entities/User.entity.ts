@@ -3,6 +3,7 @@ import { IUser } from "../interfaces/IUser.interface";
 
 export const userEntity = () => {
   const userSchema = new mongoose.Schema<IUser>({
+    rol: { type: String, required: true },
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },

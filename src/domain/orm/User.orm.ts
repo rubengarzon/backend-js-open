@@ -105,7 +105,7 @@ export const getUserByEmail = async (
     // Search user by email
     return await userModel
       .findOne({ email: email })
-      .select("name email age katas");
+      .select("rol name email age katas");
   } catch (error) {
     LogError(`[ORM ERROR] Getting User by ID: ${error}`);
   }
